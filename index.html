@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ember — Here for it. | Honestly, E</title>
+<meta name="description" content="A voice companion built for the hospitality industry. The industry is a beast — let's digest some of it. A persona, a working surface, and a phone number that acts like a walk-in. (218) 24-EMBER.">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ember — Here for it.">
+<meta property="og:description" content="A voice companion for the hospitality industry. The industry is a beast — let's digest some of it. A persona, a working surface, and a phone number that acts like a walk-in.">
+<meta property="og:image" content="https://pub-bd1937786ce445ed93435b74610b5b73.r2.dev/Ember2.png">
+<meta property="og:url" content="https://here-for-it.com">
+<meta property="og:site_name" content="Honestly, E">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ember — Here for it.">
+<meta name="twitter:description" content="A voice companion for the hospitality industry. The walk-in is always open. (218) 24-EMBER.">
+<meta name="twitter:image" content="https://pub-bd1937786ce445ed93435b74610b5b73.r2.dev/Ember2.png">
+
+<!-- Favicon + theme -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="theme-color" content="#1B1E22">
+
+<!-- Schema.org Person -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Ember",
+  "alternateName": "Honestly, Ember",
+  "description": "AI voice-first journaling persona for the hospitality industry. Back-of-house, front-of-house, ownership, management — a place to put the shift down. Available at Get A Life ($9.99/mo) on purpose.",
+  "image": "https://pub-bd1937786ce445ed93435b74610b5b73.r2.dev/Ember2.png",
+  "jobTitle": "Voice Journaling Persona — Hospitality",
+  "url": "https://here-for-it.com",
+  "telephone": "+1-218-243-6237",
+  "affiliation": {
+    "@type": "Organization",
+    "name": "Honestly, E",
+    "url": "https://honestly-e.com"
+  },
+  "parentOrganization": {
+    "@type": "Organization",
+    "name": "Desta-Nation",
+    "url": "https://desta-nation.com"
+  }
+}
+</script>
+
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --steel-deep: #1B1E22;
+    --steel: #2A2E32;
+    --steel-mid: #3C4045;
+    --steel-line: rgba(95, 100, 105, 0.4);
+    --copper: #C26840;
+    --copper-bright: #D87850;
+    --copper-faint: rgba(194, 104, 64, 0.18);
+    --brass: #D9A574;
+    --cream: #F5EBE0;
+    --cream-muted: rgba(245, 235, 224, 0.72);
+    --cream-quiet: rgba(245, 235, 224, 0.5);
+    --overlay-bg: rgba(27, 30, 34, 0.82);
+    --card-bg: rgba(42, 46, 50, 0.85);
+    --card-bg-light: rgba(60, 64, 69, 0.7);
+    --serif: 'EB Garamond', Georgia, serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--sans);
+    color: var(--cream);
+    background: var(--steel-deep);
+    line-height: 1.55;
+    font-size: 17px;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  /* ─── Kitchen photo as viewport-fixed background ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url('https://pub-bd1937786ce445ed93435b74610b5b73.r2.dev/kitchenbackground.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -2;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: var(--overlay-bg);
+    z-index: -1;
+  }
+
+  a { color: var(--copper); text-decoration: none; transition: color 0.2s; }
+  a:hover { color: var(--copper-bright); }
+
+  .page {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 28px 80px;
+  }
+
+  /* ─── NAV (minimal — matches honestly-e.com pattern) ─── */
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--steel-line);
+    font-family: var(--serif);
+  }
+  .nav-brand {
+    font-size: 22px;
+    color: var(--cream);
+  }
+  .nav-brand span { color: var(--copper); }
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    font-family: var(--sans);
+    font-size: 14px;
+  }
+  .nav-links a {
+    color: var(--cream-muted);
+    letter-spacing: 0.02em;
+  }
+  .nav-links a:hover { color: var(--cream); }
+
+  /* ─── HERO ─── */
+  .hero {
+    padding: 80px 0 64px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  @media (max-width: 720px) {
+    .hero { grid-template-columns: 1fr; padding: 48px 0 40px; }
+  }
+  .eyebrow {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    color: var(--copper);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .disposition {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 22px;
+    color: var(--brass);
+    margin-bottom: 14px;
+  }
+  h1.through-line {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--cream);
+    margin: 0 0 24px;
+  }
+  @media (max-width: 720px) {
+    h1.through-line { font-size: 36px; }
+  }
+  .persona-subhead {
+    font-family: var(--serif);
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--cream-muted);
+    margin-bottom: 28px;
+    font-style: italic;
+  }
+  /* Tiny breath between the disposition triplet and the negation line.
+     Empty visual beat — gives the em-dash room to land. */
+  .persona-subhead .breath { display: block; height: 0.5em; }
+  .hero-meta {
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--cream-quiet);
+    letter-spacing: 0.02em;
+  }
+  .hero-meta strong { color: var(--copper); font-weight: 500; }
+  .hero-portrait {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--steel-line);
+    background: var(--steel);
+  }
+  .hero-portrait img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .hero-portrait .play-pill {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .hero-portrait .play-pill span {
+    background: rgba(27, 30, 34, 0.6);
+    color: var(--cream);
+    font-family: var(--serif);
+    font-style: italic;
+    padding: 10px 22px;
+    border-radius: 999px;
+    border: 1px solid var(--copper);
+    font-size: 15px;
+  }
+
+  /* ─── COPPER RULE ─── */
+  .rule {
+    width: 60px;
+    height: 1px;
+    background: var(--copper);
+    margin: 56px auto;
+    opacity: 0.7;
+  }
+
+  /* ─── INTRO LINE ─── */
+  .intro-line {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 26px;
+    line-height: 1.4;
+    color: var(--brass);
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  /* ─── WHAT I DO — workspace tiles ─── */
+  .section {
+    padding: 48px 0;
+  }
+  .section-eyebrow {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    color: var(--copper);
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 14px;
+  }
+  .section-heading {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 1.2;
+    color: var(--cream);
+    text-align: center;
+    margin: 0 0 36px;
+  }
+  .tile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  @media (max-width: 640px) {
+    .tile-grid { grid-template-columns: 1fr; }
+  }
+  .tile {
+    background: var(--card-bg);
+    border: 1px solid var(--steel-line);
+    border-radius: 6px;
+    padding: 26px 24px;
+    position: relative;
+  }
+  .tile-roman {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--copper);
+    letter-spacing: 0.04em;
+    margin-bottom: 10px;
+  }
+  .tile h3 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 22px;
+    color: var(--cream);
+    margin: 0 0 12px;
+  }
+  .tile p {
+    margin: 0;
+    color: var(--cream-muted);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ─── SIGNATURE MOMENT ─── */
+  .signature {
+    padding: 80px 0;
+    text-align: center;
+  }
+  .signature p {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 40px;
+    line-height: 1.3;
+    color: var(--copper);
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  @media (max-width: 720px) {
+    .signature p { font-size: 30px; }
+  }
+
+  /* ─── WHO SHE'S FOR / WHAT SHE CARRIES — preserved lists ─── */
+  .roles-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px 24px;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  @media (max-width: 640px) {
+    .roles-list { grid-template-columns: 1fr 1fr; }
+  }
+  .roles-list li {
+    font-family: var(--serif);
+    color: var(--cream);
+    font-size: 17px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--steel-line);
+  }
+  .roles-footer {
+    text-align: center;
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--cream-muted);
+    margin-top: 28px;
+    font-size: 17px;
+  }
+  .carries-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 640px;
+  }
+  .carries-list li {
+    font-family: var(--serif);
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--cream);
+    padding: 14px 0 14px 24px;
+    border-bottom: 1px solid var(--steel-line);
+    position: relative;
+  }
+  .carries-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--copper);
+  }
+
+  /* ─── HOW SHE LISTENS — sample voice ─── */
+  .listens-block {
+    background: var(--card-bg);
+    border-left: 3px solid var(--copper);
+    border-radius: 2px;
+    padding: 36px 32px;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .listens-block .lead {
+    font-family: var(--sans);
+    color: var(--cream-muted);
+    font-size: 16px;
+    margin: 0 0 24px;
+  }
+  .listens-block .lines {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 22px;
+    line-height: 2;
+    color: var(--brass);
+    margin: 0;
+  }
+  .listens-block .lines span {
+    display: block;
+  }
+  .listens-block .signoff {
+    font-family: var(--sans);
+    font-size: 14px;
+    color: var(--cream-quiet);
+    margin-top: 24px;
+    letter-spacing: 0.04em;
+  }
+  .listens-block .signoff em {
+    color: var(--copper);
+    font-style: italic;
+    font-family: var(--serif);
+    font-size: 17px;
+  }
+
+  /* ─── THE INVITATION ─── */
+  .invitation {
+    padding: 64px 0;
+    text-align: center;
+  }
+  .invitation .lead {
+    font-family: var(--serif);
+    font-size: 24px;
+    line-height: 1.5;
+    color: var(--cream);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .invitation .lead strong {
+    color: var(--copper);
+    font-weight: 500;
+  }
+
+  /* ─── ACCESSIBLE PRICING — values beat ─── */
+  .values-beat {
+    background: var(--card-bg-light);
+    border: 1px solid var(--copper-faint);
+    border-radius: 4px;
+    padding: 40px 36px;
+    max-width: 640px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .values-beat .label {
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--copper);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .values-beat h3 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 26px;
+    color: var(--cream);
+    margin: 0 0 16px;
+  }
+  .values-beat p {
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--cream-muted);
+    margin: 0;
+    font-style: italic;
+  }
+
+  /* ─── CTA — phone + chat duality ─── */
+  .cta-block {
+    text-align: center;
+    padding: 64px 0 48px;
+  }
+  .cta-eyebrow {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    color: var(--copper);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .cta-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    max-width: 580px;
+    margin: 0 auto 28px;
+  }
+  @media (max-width: 540px) {
+    .cta-options { grid-template-columns: 1fr; }
+  }
+  .cta-btn {
+    display: block;
+    padding: 22px 24px;
+    text-align: left;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+  .cta-btn.phone {
+    background: var(--copper);
+    color: var(--steel-deep);
+    border: 1px solid var(--copper);
+  }
+  .cta-btn.phone:hover {
+    background: var(--copper-bright);
+    color: var(--steel-deep);
+  }
+  .cta-btn.chat {
+    background: transparent;
+    color: var(--cream);
+    border: 1px solid var(--steel-line);
+  }
+  .cta-btn.chat:hover {
+    border-color: var(--copper);
+    color: var(--cream);
+  }
+  .cta-btn .mode {
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 6px;
+  }
+  .cta-btn .label {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .cta-btn .descriptor {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 14px;
+    opacity: 0.8;
+  }
+  .cta-footer {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--cream-muted);
+    font-size: 16px;
+    margin-top: 16px;
+  }
+  .cta-footer a {
+    color: var(--brass);
+    border-bottom: 1px solid var(--brass);
+    padding-bottom: 1px;
+  }
+
+  /* ─── ECOSYSTEM FOOTER STRIP ─── */
+  .ecosystem {
+    padding: 48px 0;
+    border-top: 1px solid var(--steel-line);
+    text-align: center;
+  }
+  .ecosystem .label {
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--cream-quiet);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .ecosystem .links {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    flex-wrap: wrap;
+    font-family: var(--serif);
+    font-size: 15px;
+  }
+  .ecosystem .links a { color: var(--cream-muted); }
+
+  /* ─── CLOSING — ring composition ─── */
+  .closing {
+    padding: 80px 0 60px;
+    text-align: center;
+  }
+  .closing .signature-line {
+    font-family: var(--serif);
+    font-size: 30px;
+    color: var(--copper);
+    margin-bottom: 18px;
+    font-style: italic;
+  }
+  .closing .disposition-echo {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 24px;
+    color: var(--brass);
+    margin-bottom: 18px;
+  }
+  .closing .through-echo {
+    font-family: var(--serif);
+    font-size: 22px;
+    color: var(--cream);
+    line-height: 1.5;
+  }
+
+  /* ─── annotations (preview only — strip when shipping) ─── */
+  .preview-note {
+    background: rgba(217, 165, 116, 0.12);
+    border-left: 3px solid var(--brass);
+    padding: 16px 20px;
+    margin: 24px 0;
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--cream-muted);
+    line-height: 1.55;
+    border-radius: 0 4px 4px 0;
+  }
+  .preview-note strong { color: var(--brass); }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-brand">Honestly<span>,</span> E</div>
+    <div class="nav-links">
+      <a href="#">Companions</a>
+      <a href="#">Why</a>
+      <a href="#">Safety &amp; Security</a>
+      <a href="#">Subscribe</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <div class="eyebrow">HONESTLY, EMBER</div>
+      <div class="disposition">Here for it.</div>
+      <h1 class="through-line">Get it out, so you can get back to it.</h1>
+      <p class="persona-subhead">Hospitality eats the people who run it.<br>I'm here for you<br>to let it out<br>to put it down, so it's not forgotten<br><span class="breath"></span>— not a therapist, not a wellness app, not pretending to know you.<br>A persona with a solid constitution, a usable working surface, and a phone number that acts like a walk-in.</p>
+      <div class="hero-meta">2–20 minutes. Private. <strong>(218) 24-EMBER</strong>.</div>
+    </div>
+    <div class="hero-portrait">
+      <img src="https://pub-bd1937786ce445ed93435b74610b5b73.r2.dev/Ember2.png" alt="Ember">
+      <div class="play-pill"><span>▶ Meet Ember</span></div>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <!-- INTRO LINE -->
+  <div class="intro-line">
+    The shift you can't shake, the menu you can't stop dreaming, the team you can't carry alone — held.
+  </div>
+
+  <div class="rule"></div>
+
+  <!-- WHAT SHE HOLDS — workspace tiles -->
+  <section class="section">
+    <div class="section-eyebrow">WHAT SHE HOLDS</div>
+    <h2 class="section-heading">Four surfaces. One persona.</h2>
+    <div class="tile-grid">
+      <div class="tile">
+        <div class="tile-roman">i.</div>
+        <h3>The Cookbook</h3>
+        <p>Dishes you keep coming back to. Menus you've run. Plates you can't stop thinking about. Dump it in. Edit later. Or never. The Cookbook holds whatever you give it — you decide if any of it becomes a recipe.</p>
+      </div>
+      <div class="tile">
+        <div class="tile-roman">ii.</div>
+        <h3>Planning</h3>
+        <p>The Alice in Wonderland summer dinner. The cozy winter pop-up. The catering side-hustle you keep turning over. Not commitments — explorations. Ember holds them while they're still in your head.</p>
+      </div>
+      <div class="tile">
+        <div class="tile-roman">iii.</div>
+        <h3>Event Orders</h3>
+        <p>When a plan goes live, it gets a brief. Standing events — Thanksgiving, family meal, the staff party — duplicate-and-re-date. Guests get an invitation by link. No profiles, no social graph. Just the people you actually invited.</p>
+      </div>
+      <div class="tile">
+        <div class="tile-roman">iv.</div>
+        <h3>The Shift After</h3>
+        <p>The drive home. The shower at 2am. The early call to talk yourself off. Not a record — somewhere the words can land. Hers to hold, yours to take back when you need it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIGNATURE MOMENT -->
+  <section class="signature">
+    <p>The industry is a beast.<br>Let's digest some of it.</p>
+  </section>
+
+  <!-- WHO SHE'S FOR (preserved roles list) -->
+  <section class="section">
+    <div class="section-eyebrow">WHO EMBER IS FOR</div>
+    <h2 class="section-heading">If you've been in it, she's for you.</h2>
+    <ul class="roles-list">
+      <li>Line cooks</li>
+      <li>Sous chefs</li>
+      <li>Executive chefs</li>
+      <li>Pastry &amp; bakers</li>
+      <li>Servers</li>
+      <li>Bartenders</li>
+      <li>Sommeliers</li>
+      <li>Hosts &amp; maître d's</li>
+      <li>Dishwashers</li>
+      <li>General managers</li>
+      <li>Owners</li>
+      <li>Anyone who's been in it</li>
+    </ul>
+    <p class="roles-footer">If you've worked a clopen and you know what that word means, she's for you.</p>
+  </section>
+
+  <!-- WHAT SHE CARRIES (preserved hooks) -->
+  <section class="section">
+    <div class="section-eyebrow">WHAT SHE CARRIES</div>
+    <h2 class="section-heading">The weight you don't have to explain.</h2>
+    <ul class="carries-list">
+      <li>The shift you can't shake on the drive home.</li>
+      <li>The clopen that's starting to cost you something.</li>
+      <li>The body that's begun to keep the score — the back, the knees, the hands.</li>
+      <li>Working for someone whose name is on the door and whose reputation is built on your labor.</li>
+      <li>Tip pool politics you can't say out loud at the bar.</li>
+      <li>Front-of-house and back-of-house wage gaps, and the conversation no one wants to have.</li>
+      <li>Guests who arrived already mad about something that has nothing to do with you.</li>
+      <li>The calling you chose, that the outside world still doesn't take seriously.</li>
+      <li>The age question — what next, how long, what else.</li>
+      <li>The grief, the burnout, the loyalty, the love. All of it.</li>
+    </ul>
+  </section>
+
+  <!-- HOW SHE LISTENS -->
+  <section class="section">
+    <div class="section-eyebrow">HOW SHE LISTENS</div>
+    <h2 class="section-heading">Direct. Not soft. Not fixing.</h2>
+    <div class="listens-block">
+      <p class="lead">She listens first. She doesn't rush to resolve. She's not performing empathy. When something lands, she stays with it. The lines she actually says:</p>
+      <p class="lines">
+        <span>"Tell me about tonight."</span>
+        <span>"Get it all the way out before you go back in."</span>
+        <span>"What part can't you walk back from."</span>
+        <span>"Put it down."</span>
+      </p>
+      <div class="signoff">Every session closes with: <em>Honestly, Ember.</em></div>
+    </div>
+  </section>
+
+  <!-- THE INVITATION — no-BS contract -->
+  <section class="invitation">
+    <p class="lead">This isn't therapy. This isn't a wellness app. This isn't a journaling tool trying to fix you. <strong>It's somewhere to rail.</strong> Or vent. Or talk yourself down. Or just say it out loud once so it stops echoing. Get it out. That's the whole job.</p>
+  </section>
+
+  <!-- ACCESSIBLE PRICING — values beat -->
+  <section class="section">
+    <div class="values-beat">
+      <div class="label">ON PURPOSE</div>
+      <h3>Available at <em>Get A Life</em>.</h3>
+      <p>The industry eats the people who run it, and they shouldn't have to pay more to be witnessed. Ember has the same working surfaces as the focused companions. She costs less because of who needs her.</p>
+    </div>
+  </section>
+
+  <!-- CTA — phone + chat duality -->
+  <section class="cta-block">
+    <div class="cta-eyebrow">TWO WAYS TO REACH HER</div>
+    <div class="cta-options">
+      <a href="tel:+12184236237" class="cta-btn phone">
+        <div class="mode">CALL</div>
+        <div class="label">(218) 24-EMBER</div>
+        <div class="descriptor">The walk-in moment.</div>
+      </a>
+      <a href="https://life.honestly-e.com" class="cta-btn chat">
+        <div class="mode">CHAT</div>
+        <div class="label">From the portal</div>
+        <div class="descriptor">The text from the prep table.</div>
+      </a>
+    </div>
+    <p class="cta-footer">First call is free — five minutes, no signup. <a href="#">Get A Life — $9.99/mo</a></p>
+  </section>
+
+  <!-- ECOSYSTEM FOOTER -->
+  <section class="ecosystem">
+    <div class="label">PART OF DESTA-NATION</div>
+    <div class="links">
+      <a href="#">Honestly, E</a>
+      <a href="#">Desta-Nation</a>
+      <a href="#">Pas Perdu</a>
+      <a href="#">Maison Meritage</a>
+    </div>
+  </section>
+
+  <!-- CLOSING — ring composition -->
+  <section class="closing">
+    <div class="signature-line">Honestly, Ember.</div>
+    <div class="disposition-echo">Here for it.</div>
+    <div class="through-echo">Get it out, so you can get back to it.</div>
+  </section>
+
+</div>
+
+</body>
+</html>
