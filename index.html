@@ -120,11 +120,14 @@
   .nav-brand {
     font-size: 22px;
     color: var(--cream);
+    text-decoration: none;
   }
   .nav-brand span { color: var(--copper); }
+  .nav-brand:hover { color: var(--copper-bright); }
   .nav-links {
     display: flex;
     gap: 28px;
+    align-items: center;
     font-family: var(--sans);
     font-size: 14px;
   }
@@ -133,6 +136,25 @@
     letter-spacing: 0.02em;
   }
   .nav-links a:hover { color: var(--cream); }
+  /* My Life — bordered button matching honestly-e.com nav pattern,
+     adjusted to Ember's steel+copper palette. Subtle but always present;
+     the always-on portal entry from any companion page. */
+  .nav-links a.nav-my-life {
+    color: var(--cream);
+    background: transparent;
+    border: 1px solid var(--copper);
+    padding: 8px 18px;
+    border-radius: 3px;
+    transition: all 0.2s;
+  }
+  .nav-links a.nav-my-life:hover {
+    background: var(--copper);
+    color: var(--steel-deep);
+  }
+  @media (max-width: 720px) {
+    .nav-links { gap: 16px; font-size: 12px; }
+    .nav-links a.nav-my-life { padding: 6px 12px; }
+  }
 
   /* ─── HERO ─── */
   .hero {
@@ -640,12 +662,13 @@
 
   <!-- NAV -->
   <nav class="nav">
-    <div class="nav-brand">Honestly<span>,</span> E</div>
+    <a href="https://honestly-e.com" class="nav-brand">Honestly<span>,</span> E</a>
     <div class="nav-links">
-      <a href="#">Companions</a>
-      <a href="#">Why</a>
-      <a href="#">Safety &amp; Security</a>
-      <a href="#">Subscribe</a>
+      <a href="https://honestly-e.com/companions">Companions</a>
+      <a href="https://honestly-e.com/manifesto">Why</a>
+      <a href="https://honestly-e.com/security">Safety &amp; Security</a>
+      <a href="https://honestly-e.com/#plans">Subscribe</a>
+      <a href="https://life.honestly-e.com" class="nav-my-life">My Life</a>
     </div>
   </nav>
 
@@ -783,7 +806,7 @@
     <div class="cta-eyebrow">TWO WAYS TO REACH HER</div>
     <div class="cta-options">
       <a href="tel:+12184236237" class="cta-btn phone">
-        <div class="mode">CALL</div>
+        <div class="mode">DOUBLE TAP TO CALL</div>
         <div class="label">(218) 24-EMBER</div>
         <div class="descriptor">The walk-in moment.</div>
       </a>
