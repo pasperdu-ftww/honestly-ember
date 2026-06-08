@@ -204,24 +204,45 @@
     object-fit: cover;
     display: block;
   }
+  .hero-portrait video {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
   .hero-portrait .play-pill {
     position: absolute;
     inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    pointer-events: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font: inherit;
+    transition: background 0.2s;
+  }
+  .hero-portrait .play-pill:hover {
+    background: rgba(0, 0, 0, 0.15);
   }
   .hero-portrait .play-pill span {
-    background: rgba(27, 30, 34, 0.6);
+    background: rgba(27, 30, 34, 0.78);
     color: var(--cream);
     font-family: var(--serif);
     font-style: italic;
-    padding: 10px 22px;
+    padding: 12px 26px;
     border-radius: 999px;
     border: 1px solid var(--copper);
     font-size: 15px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+    transition: transform 0.15s, box-shadow 0.15s;
   }
+  .hero-portrait .play-pill:hover span {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  }
+  .hero-portrait.playing .play-pill { display: none; }
+  .hero-portrait.playing img { display: none; }
 
   /* ─── COPPER RULE ─── */
   .rule {
@@ -637,9 +658,12 @@
       <p class="persona-subhead">Hospitality eats the people who run it.<br>I'm here for you<br>to let it out<br>to put it down, so it's not forgotten<br><span class="breath"></span>— not a therapist, not a wellness app, not pretending to know you.<br>A persona with a solid constitution, a usable working surface, and a phone number that acts like a walk-in.</p>
       <div class="hero-meta">2–20 minutes. Private. <strong>(218) 24-EMBER</strong>.</div>
     </div>
-    <div class="hero-portrait">
+    <div class="hero-portrait" id="hero-portrait">
       <img src="https://pub-bd1937786ce445ed93435b74610b5b73.r2.dev/Ember2.png" alt="Ember">
-      <div class="play-pill"><span>▶ Meet Ember</span></div>
+      <video id="hero-video" playsinline preload="metadata" style="display:none;">
+        <source src="https://pub-bd1937786ce445ed93435b74610b5b73.r2.dev/Ember2026.mp4" type="video/mp4">
+      </video>
+      <button type="button" class="play-pill" onclick="playHeroVideo()"><span>▶ Meet Ember</span></button>
     </div>
   </section>
 
@@ -791,6 +815,23 @@
   </section>
 
 </div>
+
+<script>
+  function playHeroVideo() {
+    var stage = document.getElementById('hero-portrait');
+    var video = document.getElementById('hero-video');
+    if (!stage || !video) return;
+    stage.classList.add('playing');
+    video.style.display = 'block';
+    video.play();
+    video.addEventListener('ended', function reset() {
+      stage.classList.remove('playing');
+      video.style.display = 'none';
+      video.currentTime = 0;
+      video.removeEventListener('ended', reset);
+    });
+  }
+</script>
 
 </body>
 </html>
