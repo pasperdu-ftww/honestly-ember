@@ -697,6 +697,7 @@
       <video id="hero-video" playsinline preload="metadata" style="display:none;">
         <source src="https://pub-bd1937786ce445ed93435b74610b5b73.r2.dev/Ember-LIFE.mp4" type="video/mp4">
       </video>
+      <img id="hero-endtile" src="https://pub-bd1937786ce445ed93435b74610b5b73.r2.dev/end-tiles/end-tile-ember-vertical-1080x1920.png" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
       <button type="button" class="play-pill" onclick="playHeroVideo()"><span>▶ Meet Ember</span></button>
     </div>
   </section>
@@ -855,15 +856,18 @@
     var stage = document.getElementById('hero-portrait');
     var video = document.getElementById('hero-video');
     if (!stage || !video) return;
+    var endtile = document.getElementById('hero-endtile');
     stage.classList.add('playing');
+    if (endtile) endtile.style.display = 'none';
     video.style.display = 'block';
+    video.currentTime = 0;
     video.play();
-    video.addEventListener('ended', function reset() {
-      stage.classList.remove('playing');
+    video.onended = function () {
+      // Hold on the branded end-tile; keep the play-pill so they can replay.
       video.style.display = 'none';
-      video.currentTime = 0;
-      video.removeEventListener('ended', reset);
-    });
+      if (endtile) endtile.style.display = 'block';
+      stage.classList.remove('playing');
+    };
   }
 </script>
 
