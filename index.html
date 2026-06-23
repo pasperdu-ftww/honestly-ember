@@ -655,6 +655,9 @@
     border-radius: 0 4px 4px 0;
   }
   .preview-note strong { color: var(--brass); }
+  /* Anti-orphan baseline — no lone last word at any width (deliberate <br> still honored) */
+  body { text-wrap: pretty; }
+  h1, h2, h3, h4, h5, h6, li { text-wrap: balance; }
 </style>
     <link rel="stylesheet" href="companion-chat.css?v=2026-06-22-mobile">
 </head>
